@@ -1,6 +1,4 @@
-from __future__ import print_function, nested_scopes, division, absolute_import, unicode_literals
-
-import os
+from __future__ import print_function, nested_scopes, division, absolute_import
 
 from mshr import Cylinder, generate_mesh
 
@@ -33,8 +31,8 @@ def create_boundary_conditions(function_space, h):
     :param h: distance between planes with fixed temperature.
     :return: list of boundary conditions.
     """
-    u_top = Expression('0', degree=3)
-    u_bottom = Expression('100', degree=3)
+    u_top = Constant(0.0)
+    u_bottom = Constant(100.0)
 
     bottom_bc = DirichletBC(function_space, u_top, lambda x, on_boundary: on_boundary and near(x[2], h))
     upper_bc = DirichletBC(function_space, u_bottom, lambda x, on_boundary: on_boundary and near(x[2], 0))
@@ -62,6 +60,7 @@ def output_results(u):
     Output results in vtu format.
     :param u: function to output
     """
+    import os
     root = os.path.dirname(os.path.abspath(__file__))
 
     vtk_file = File(os.path.join(root, 'results', '{name}.pvd'.format(name=u)))
