@@ -55,6 +55,15 @@ def create_variational_problem(function_space):
     return a, L
 
 
+def output_results(u):
+    """
+    Output results in vtu format.
+    :param u: function to output
+    """
+    vtk_file = File('heat_conduction/results/{name}.pvd'.format(name=u))
+    vtk_file << u
+
+
 if __name__ == '__main__':
     R = 10
     H = 5
@@ -67,9 +76,7 @@ if __name__ == '__main__':
 
     a, L = create_variational_problem(V)
 
-    u = Function(V, name='T, K')
+    u = Function(V, name='T')
     solve(a == L, u, bcs=bcs)
 
-    # Save solution in vtk file
-    vtk_file = File('heat_conduction/results/solution.pvd')
-    vtk_file << u
+    output_results(u)
