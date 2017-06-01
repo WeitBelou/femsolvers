@@ -1,5 +1,7 @@
 from __future__ import print_function
 
+import os
+
 from mshr import Cylinder, generate_mesh
 
 from dolfin.cpp.function import near
@@ -60,7 +62,9 @@ def output_results(u):
     Output results in vtu format.
     :param u: function to output
     """
-    vtk_file = File('heat_conduction/results/{name}.pvd'.format(name=u))
+    root = os.path.dirname(os.path.abspath(__file__))
+
+    vtk_file = File(os.path.join(root, 'results', '{name}.pvd'.format(name=u)))
     vtk_file << u
 
 
