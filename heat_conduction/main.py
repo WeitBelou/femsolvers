@@ -40,6 +40,21 @@ def create_boundary_conditions(function_space, h):
     return [upper_bc, bottom_bc]
 
 
+def create_variational_problem(function_space):
+    """
+    Create linear variational problem for stationary Laplace problem.
+    :param function_space:
+    :return: pair (a(u, v), L)
+    """
+    u = TrialFunction(function_space)
+    v = TestFunction(function_space)
+
+    a = dot(grad(u), grad(v)) * dx
+    L = Constant(0.0) * v * dx
+
+    return a, L
+
+
 if __name__ == '__main__':
     R = 10
     H = 5
@@ -50,16 +65,8 @@ if __name__ == '__main__':
 
     bcs = create_boundary_conditions(V, H)
 
-    # Define variational problem
-    u = TrialFunction(V)
-    v = TestFunction(V)
+    a, L = create_variational_problem(V)
 
-    f = Constant(0.0)
-
-    a = dot(grad(u), grad(v)) * dx
-    L = f * v * dx
-
-    # Compute solution
     u = Function(V, name='T, K')
     solve(a == L, u, bcs=bcs)
 
