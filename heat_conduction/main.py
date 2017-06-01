@@ -19,32 +19,39 @@ def create_mesh(r, h):
     )
 
 
-R = 10
-H = 5
-mesh = create_mesh(R, H)
+def create_boundary_conditions(V, h):
+    u_top = Expression('0', degree=3)
+    u_bottom = Expression('100', degree=3)
 
-V = FunctionSpace(mesh, 'P', 1)
+    bottom_bc = DirichletBC(V, u_top, lambda x, on_boundary: on_boundary and near(x[2], h))
+    upper_bc = DirichletBC(V, u_bottom, lambda x, on_boundary: on_boundary and near(x[2], 0))
 
-# Define BC
-u_top = Expression('0', degree=3)
-u_bottom = Expression('100', degree=3)
+    return [upper_bc, bottom_bc]
 
-bottom_bc = DirichletBC(V, u_top, lambda x, on_boundary: on_boundary and near(x[2], H))
-upper_bc = DirichletBC(V, u_bottom, lambda x, on_boundary: on_boundary and near(x[2], 0))
 
-# Define variational problem
-u = TrialFunction(V)
-v = TestFunction(V)
+if __name__ == '__main__':
+    R = 10
+    H = 5
+    mesh = create_mesh(R, H)
 
-f = Constant(0.0)
+    V = FunctionSpace(mesh, 'P', 1)
 
-a = dot(grad(u), grad(v)) * dx
-L = f * v * dx
+    # Define BC
+    bcs = create_boundary_conditions(V, H)
 
-# Compute solution
-u = Function(V, name='T, K')
-solve(a == L, u, bcs=[upper_bc, bottom_bc])
+    # Define variational problem
+    u = TrialFunction(V)
+    v = TestFunction(V)
 
-# Save solution in vtk file
-vtk_file = File('heat_conduction/results/solution.pvd')
-vtk_file << u
+    f = Constant(0.0)
+
+    a = dot(grad(u), grad(v)) * dx
+    L = f * v * dx
+
+    # Compute solution
+    u = Function(V, name='T, K')
+    solve(a == L, u, bcs=bcs)
+
+    # Save solution in vtk file
+    vtk_file = File('heat_conduction/results/solution.pvd')
+    vtk_file << u
