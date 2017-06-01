@@ -8,6 +8,22 @@ from dolfin.cpp.mesh import Point
 from fenics import *
 
 
+def read_parameters(parameters_file='parameters.yml'):
+    """
+    Read parameter file and returns python object with parameters
+    :param parameters_file: path to parameter file
+    :return:
+    """
+    import yaml, os
+
+    if not os.path.isabs(parameters_file):
+        root = os.path.dirname(os.path.abspath(__file__))
+        parameters_file = os.path.join(root, parameters_file)
+
+    parameters_file = open(parameters_file, 'r')
+    return yaml.safe_load(parameters_file)
+
+
 def create_cylinder_mesh(r, h):
     """
     Create cylinder mesh with bottom in (0, 0, 0).
@@ -68,14 +84,16 @@ def output_results(u):
 
 
 if __name__ == '__main__':
-    R = 10
-    H = 5
+    params = read_parameters()
 
-    mesh = create_cylinder_mesh(R, H)
+    geometry = params['geometry']
+
+    mesh = create_cylinder_mesh(geometry['radius'],
+                                geometry['height'])
 
     V = FunctionSpace(mesh, 'P', 1)
 
-    bcs = create_boundary_conditions(V, H)
+    bcs = create_boundary_conditions(V, geometry['height'])
 
     a, L = create_variational_problem(V)
 
