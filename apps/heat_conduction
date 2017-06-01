@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+chmod +x ./fenics
+
+cd ..
+apps/fenics "python src/heat_conduction/main.py"
