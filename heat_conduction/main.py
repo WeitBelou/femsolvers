@@ -30,5 +30,5 @@ u = Function(V, name='T, K')
 solve(a == L, u, bcs=[upper_bc, bottom_bc])
 
 # Save solution in vtk file
-vtkfile = File('heat_conduction/solution.pvd')
+vtkfile = File('heat_conduction/results/solution.pvd')
 vtkfile << u
