@@ -1,20 +1,36 @@
 from __future__ import print_function
 
+from mshr import Cylinder, generate_mesh
+
 from dolfin.cpp.function import near
 from dolfin.cpp.io import File
-from dolfin.cpp.mesh import UnitCubeMesh
+from dolfin.cpp.mesh import Point
 from fenics import *
 
-# Create mesh and define function spaces
-mesh = UnitCubeMesh(8, 8, 8)
+
+# Create cylinder mesh
+def create_mesh(r, h):
+    return generate_mesh(
+        Cylinder(
+            top=Point(0, 0, h),
+            bottom=Point(0, 0, 0),
+            top_radius=r, bottom_radius=r
+        ), 10
+    )
+
+
+R = 10
+H = 5
+mesh = create_mesh(R, H)
+
 V = FunctionSpace(mesh, 'P', 1)
 
 # Define BC
 u_top = Expression('0', degree=3)
 u_bottom = Expression('100', degree=3)
 
-bottom_bc = DirichletBC(V, u_top, lambda x, on_boundary: on_boundary and near(x[2], 1.0))
-upper_bc = DirichletBC(V, u_bottom, lambda x, on_boundary: on_boundary and near(x[2], 0.0))
+bottom_bc = DirichletBC(V, u_top, lambda x, on_boundary: on_boundary and near(x[2], H))
+upper_bc = DirichletBC(V, u_bottom, lambda x, on_boundary: on_boundary and near(x[2], 0))
 
 # Define variational problem
 u = TrialFunction(V)
@@ -30,5 +46,5 @@ u = Function(V, name='T, K')
 solve(a == L, u, bcs=[upper_bc, bottom_bc])
 
 # Save solution in vtk file
-vtkfile = File('heat_conduction/results/solution.pvd')
-vtkfile << u
+vtk_file = File('heat_conduction/results/solution.pvd')
+vtk_file << u
