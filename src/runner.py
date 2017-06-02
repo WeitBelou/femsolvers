@@ -44,19 +44,29 @@ class Runner:
 
         logging.basicConfig(format='[%(name)s] [%(levelname)s] %(asctime)s %(message)s')
 
-        # If there is no external parameters then use default one
+        parameters_file = self.get_parameters_file()
+
+        self.parameters = parameters_reader.read_parameters(parameters_file)
+
+    def get_parameters_file(self):
+        """
+        Get path to parameters file from commandline args or return default
+        :return:
+        """
         if len(sys.argv) == 1:
             default_filename = 'parameters.yml'
-
             root = os.path.dirname(os.path.abspath(__file__))
+            parameters_file = os.path.join(root, default_filename)
 
-            self.parameters_file = os.path.join(root, default_filename)
-        else:
-            self.parameters_file = os.path.abspath(sys.argv[1])
+            self.logger.info('Using "%(params)s" parameters file', {'params': parameters_file})
 
-        self.logger.info('Using "%(params)s" parameters file', {'params': self.parameters_file})
+            return parameters_file
 
-        self.parameters = parameters_reader.read_parameters(self.parameters_file)
+        parameters_file = os.path.abspath(sys.argv[1])
+
+        self.logger.info('Using "%(params)s" parameters file', {'params': parameters_file})
+
+        return parameters_file
 
     def run(self):
         """
