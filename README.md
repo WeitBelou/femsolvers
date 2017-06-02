@@ -5,8 +5,11 @@
 chmod +x prepare_docker && ./prepare_docker
 ```
 
-2) Далее запускать скрипты из директории `apps`
+2) Далее запускать скрипт `fenics`
 ```bash
-cd apps
-chmod +x ./app_name && ./app_name
+chmod +x ./fenics && ./fenics "app"
 ```
+
+#### app
+* "heat" - для теплопроводности
+* ...

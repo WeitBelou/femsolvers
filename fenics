@@ -6,4 +6,4 @@ CUSTOM_IMAGE_NAME="ice_island/custom_fenics_image"
 docker run -t --rm \
            -v instant-cache:/home/fenics/.instant \
            -v $(pwd):${WORK_DIR} \
-           ${CUSTOM_IMAGE_NAME} "$@"
+           ${CUSTOM_IMAGE_NAME} "$1"
