@@ -1,4 +1,8 @@
+import logging
 import os
+import sys
+
+from dolfin.cpp.common import set_log_level
 
 from heat_conduction.main import main as heat_main
 from parameters import parameters_reader
@@ -25,15 +29,34 @@ class Runner:
     Class that creates solver and passes parameters to it
     """
 
-    def __init__(self, parameters_file: str):
+    def __init__(self):
         """
-        Constructor from path to parameters file (it has to be relative this file directory)
-        :param parameters_file: relative path to file with parameters
+        Constructor that parses commandline args and provide default config if
+        there is not other
         """
-        root = os.path.dirname(os.path.abspath(__file__))
-        parameters_file = os.path.join(root, parameters_file)
 
-        self.parameters = parameters_reader.read_parameters(parameters_file)
+        # Disable debug messages from fenics
+        set_log_level(logging.WARNING)
+
+        # Create and set custom logger
+        self.logger = logging.getLogger(__name__)
+        self.logger.setLevel(logging.INFO)
+
+        logging.basicConfig(format='[%(name)s] [%(levelname)s] %(asctime)s %(message)s')
+
+        # If there is no external parameters then use default one
+        if len(sys.argv) == 1:
+            default_filename = 'parameters.yml'
+
+            root = os.path.dirname(os.path.abspath(__file__))
+
+            self.parameters_file = os.path.join(root, default_filename)
+        else:
+            self.parameters_file = os.path.abspath(sys.argv[1])
+
+        self.logger.info('Using "%(params)s" parameters file', {'params': self.parameters_file})
+
+        self.parameters = parameters_reader.read_parameters(self.parameters_file)
 
     def run(self):
         """
@@ -49,5 +72,5 @@ class Runner:
 
 
 if __name__ == '__main__':
-    runner = Runner('parameters.yml')
+    runner = Runner()
     runner.run()
