@@ -24,20 +24,23 @@ def read_parameters(parameters_file='parameters.yml'):
     return yaml.safe_load(parameters_file)
 
 
-def create_cylinder_mesh(r, h):
+def create_mesh(geometry):
     """
     Create cylinder mesh with bottom in (0, 0, 0).
-    :param r: cylinder radius
-    :param h: cylinder height
+    :type geometry: dict with geometry data
     :return: generated mesh
     """
-    return generate_mesh(
-        Cylinder(
-            top=Point(0, 0, h),
-            bottom=Point(0, 0, 0),
-            top_radius=r, bottom_radius=r
-        ), 10
-    )
+    if geometry['type'] == 'cylinder':
+        return generate_mesh(
+            Cylinder(
+                top=Point(0, 0, geometry['height']),
+                bottom=Point(0, 0, 0),
+                top_radius=geometry['radius'],
+                bottom_radius=geometry['radius']
+            ), geometry['resolution']
+        )
+    else:
+        raise Exception('Geometry with type: "{type}" not implemented'.format(type=geometry['type']))
 
 
 def create_boundary_conditions(function_space, h):
@@ -88,8 +91,7 @@ if __name__ == '__main__':
 
     geometry = params['geometry']
 
-    mesh = create_cylinder_mesh(geometry['radius'],
-                                geometry['height'])
+    mesh = create_mesh(geometry)
 
     V = FunctionSpace(mesh, 'P', 1)
 
