@@ -52,17 +52,17 @@ def output_results(u, root):
 
 
 def main(params):
-    geometry = params['geometry']
+    geometry = params.geometry
 
     mesh = create_mesh(geometry)
 
     V = FunctionSpace(mesh, 'P', 1)
 
-    bcs = create_boundary_conditions(V, geometry['height'])
+    bcs = create_boundary_conditions(V, geometry.height)
 
     a, L = create_variational_problem(V)
 
     u = Function(V, name='T')
     solve(a == L, u, bcs=bcs)
 
-    output_results(u, params['output']['root'])
+    output_results(u, params.output.root)

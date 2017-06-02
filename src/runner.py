@@ -5,7 +5,7 @@ import sys
 from dolfin.cpp.common import set_log_level
 
 from heat_conduction.main import main as heat_main
-from parameters import parameters_reader
+from config import parser
 
 
 class SolverTypeNotFound(Exception):
@@ -26,7 +26,7 @@ class SolverTypeNotFound(Exception):
 
 class Runner:
     """
-    Class that creates solver and passes parameters to it
+    Class that creates solver and passes config to it
     """
 
     def __init__(self):
@@ -46,11 +46,11 @@ class Runner:
 
         parameters_file = self.get_parameters_file()
 
-        self.parameters = parameters_reader.read_parameters(parameters_file)
+        self.parameters = parser.parse(parameters_file)
 
     def get_parameters_file(self):
         """
-        Get path to parameters file from commandline args or return default
+        Get path to config file from commandline args or return default
         :return:
         """
         if len(sys.argv) == 1:
@@ -58,22 +58,22 @@ class Runner:
             root = os.path.dirname(os.path.abspath(__file__))
             parameters_file = os.path.join(root, default_filename)
 
-            self.logger.info('Using "%(params)s" parameters file', {'params': parameters_file})
+            self.logger.info('Using "%(params)s" config file', {'params': parameters_file})
 
             return parameters_file
 
         parameters_file = os.path.abspath(sys.argv[1])
 
-        self.logger.info('Using "%(params)s" parameters file', {'params': parameters_file})
+        self.logger.info('Using "%(params)s" config file', {'params': parameters_file})
 
         return parameters_file
 
     def run(self):
         """
-        Creates solver and passes parameters to it
-        :raises SolverTypeNotFound when solver type in parameters invalid
+        Creates solver and passes config to it
+        :raises SolverTypeNotFound when solver type in config invalid
         """
-        solver_type = self.parameters['solver']['type']
+        solver_type = self.parameters.solver.type
 
         if solver_type == 'heat':
             heat_main(self.parameters)
