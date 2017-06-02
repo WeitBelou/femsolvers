@@ -1,26 +1,12 @@
 from __future__ import print_function, nested_scopes, division, absolute_import
 
+import os
+
 from dolfin.cpp.function import near
 from dolfin.cpp.io import File
 from fenics import *
 
 from mesh.mesh_factory import create_mesh
-
-
-def read_parameters(parameters_file='parameters.yml'):
-    """
-    Read parameter file and returns python object with parameters
-    :param parameters_file: path to parameter file
-    :return:
-    """
-    import yaml, os
-
-    if not os.path.isabs(parameters_file):
-        root = os.path.dirname(os.path.abspath(__file__))
-        parameters_file = os.path.join(root, parameters_file)
-
-    parameters_file = open(parameters_file, 'r')
-    return yaml.safe_load(parameters_file)
 
 
 def create_boundary_conditions(function_space, h):
@@ -54,21 +40,18 @@ def create_variational_problem(function_space):
     return a, L
 
 
-def output_results(u):
+def output_results(u, root):
     """
     Output results in vtu format.
+    :param root: base dir for results
     :param u: function to output
     """
-    import os
-    root = os.path.dirname(os.path.abspath(__file__))
 
-    vtk_file = File(os.path.join(root, 'results', '{name}.pvd'.format(name=u)))
+    vtk_file = File(os.path.join(root, 'heat_conduction', '{name}.pvd'.format(name=u)))
     vtk_file << u
 
 
-def main():
-    params = read_parameters()
-
+def main(params):
     geometry = params['geometry']
 
     mesh = create_mesh(geometry)
@@ -82,4 +65,4 @@ def main():
     u = Function(V, name='T')
     solve(a == L, u, bcs=bcs)
 
-    output_results(u)
+    output_results(u, params['output']['root'])
