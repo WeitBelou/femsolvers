@@ -2,14 +2,10 @@
 
 1) Подготовить окружение
 ```bash
-chmod +x prepare_docker && ./prepare_docker
+curl -s https://get.fenicsproject.org | bash
 ```
 
-2) Далее запускать скрипт `fenics`
+2) Далее запускать
 ```bash
-chmod +x ./fenics && ./fenics "app"
+fenicsproject run
 ```
-
-#### app
-* "heat" - для теплопроводности
-* ...

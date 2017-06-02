@@ -1,6 +1,0 @@
-#!/usr/bin/env bash
-
-CUSTOM_IMAGE_NAME="ice_island/custom_fenics_image"
-
-docker volume create --name instant-cache > /dev/null 2>&1
-docker build -t ${CUSTOM_IMAGE_NAME} .
