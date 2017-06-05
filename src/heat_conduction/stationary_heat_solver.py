@@ -1,11 +1,9 @@
-from __future__ import print_function, nested_scopes, division, absolute_import
-
 import os
 
-from dolfin.cpp.function import near
 from dolfin.cpp.io import File
 from fenics import *
 
+from boundary_conditions.dirichlet import create_boundary_conditions
 from config.config import Config
 from mesh.mesh_factory import create_mesh
 
@@ -13,21 +11,6 @@ from mesh.mesh_factory import create_mesh
 class StationaryHeatSolver:
     def __init__(self, config: Config):
         self._config = config
-
-    def create_boundary_conditions(self, function_space, h):
-        """
-        Create boundary conditions: two planes with fixed temperature.
-        :param function_space: function space for which boundary conditions will be created.
-        :param h: distance between planes with fixed temperature.
-        :return: list of boundary conditions.
-        """
-        u_top = Constant(0.0)
-        u_bottom = Constant(100.0)
-
-        bottom_bc = DirichletBC(function_space, u_top, lambda x, on_boundary: on_boundary and near(x[2], h))
-        upper_bc = DirichletBC(function_space, u_bottom, lambda x, on_boundary: on_boundary and near(x[2], 0))
-
-        return [upper_bc, bottom_bc]
 
     def create_variational_problem(self, function_space):
         """
@@ -60,7 +43,7 @@ class StationaryHeatSolver:
 
         V = FunctionSpace(mesh, 'P', 1)
 
-        bcs = self.create_boundary_conditions(V, geometry.height)
+        bcs = create_boundary_conditions(V, geometry.height)
 
         a, L = self.create_variational_problem(V)
 
