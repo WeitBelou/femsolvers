@@ -6,9 +6,9 @@ from boundary_conditions.markers import make_marker
 from config.config import Config
 
 
-def create_boundary_conditions(function_space: FunctionSpace, bcs: Config) -> List[DirichletBC]:
+def create_dirichlet(function_space: FunctionSpace, bcs: Config) -> List[DirichletBC]:
     """
-    Create boundary conditions
+    Create dirichlet boundary conditions
     :param function_space: function space for which boundary conditions will be created.
     :param bcs: Description of boundary conditions.
     :return: list of boundary conditions.

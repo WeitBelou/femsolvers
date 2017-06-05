@@ -20,9 +20,10 @@ class SolverTypeNotFound(Exception):
         return 'Solver with type: "{type}" not found'.format(type=self.solver_type)
 
 
-def create_solver(config: Config, mesh: Mesh):
+def create_solver(config: Config, mesh: Mesh, bcs: Config):
     """
     Creates solver from config
+    :param bcs: Config for boundary conditions
     :param config: Config with solver description
     :param mesh: Mesh for solver
     :raise SolverTypeNotFound if there is no solver with type that was declared in config
@@ -31,6 +32,6 @@ def create_solver(config: Config, mesh: Mesh):
     solver_type = config['type']
 
     if solver_type == 'heat':
-        return StationaryHeatSolver(config=config, mesh=mesh)
+        return StationaryHeatSolver(config=config, mesh=mesh, bcs=bcs)
     else:
         raise SolverTypeNotFound(solver_type)

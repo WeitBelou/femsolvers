@@ -3,12 +3,13 @@ import os
 from dolfin.cpp.io import File
 from fenics import *
 
-from boundary_conditions.dirichlet import create_boundary_conditions
+from boundary_conditions.factory import create_dirichlet
 from config.config import Config
 
 
 class StationaryHeatSolver:
-    def __init__(self, config: Config, mesh: Mesh):
+    def __init__(self, config: Config, mesh: Mesh, bcs: Config):
+        self._bcs = bcs
         self._config = config
         self._mesh = mesh
 
@@ -39,11 +40,9 @@ class StationaryHeatSolver:
     def run(self):
         V = FunctionSpace(self._mesh, 'P', 1)
 
-        bcs = create_boundary_conditions(V, self._config['boundary_conditions']['dirichlet'])
-
         a, L = self.create_variational_problem(V)
 
         u = Function(V, name='T')
-        solve(a == L, u, bcs=bcs)
+        solve(a == L, u, bcs=create_dirichlet(V, self._bcs))
 
         self.output_results(u, self._config['output']['root'])

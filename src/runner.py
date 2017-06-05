@@ -2,9 +2,9 @@ import logging
 import os
 import sys
 
+from config import parser
 from meshes.factory import create_mesh
 from solvers.factory import create_solver
-from config import parser
 
 
 class Runner:
@@ -63,7 +63,10 @@ class Runner:
         """
         mesh = create_mesh(self._config['geometry'])
 
-        solver = create_solver(self._config['solver'], mesh)
+        # TODO: We need to declare function space for bcs (how to get rid of it?)
+        bcs = self._config['boundary_conditions']['dirichlet']
+
+        solver = create_solver(self._config['solver'], mesh, bcs)
 
         solver.run()
 
