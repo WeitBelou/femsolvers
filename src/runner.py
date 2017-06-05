@@ -34,23 +34,26 @@ class Runner:
         Constructor that parses commandline args and provide default config if
         there is not other
         """
+        self._configure_logger()
 
-        # Disable debug messages from fenics
-        logging.getLogger('FFC').setLevel(logging.WARNING)
-        logging.getLogger('UFL').setLevel(logging.WARNING)
-
-        # Create and set custom logger
-        self.logger = logging.getLogger(__name__)
-        self.logger.setLevel(logging.INFO)
-
-        logging.basicConfig(format='[%(name)s] [%(levelname)s] %(asctime)s %(message)s')
-
-        parameters_file = self.get_parameters_file()
+        parameters_file = self._get_parameters_file()
 
         self._config = parser.parse(parameters_file)
         self.logger.info('Config:\n%(config)s', {'config': self._config})
 
-    def get_parameters_file(self):
+    def _configure_logger(self) -> None:
+        """
+        Configure logger and suppress some fenics logs
+        """
+        logging.basicConfig(format='[%(name)s] [%(levelname)s] %(asctime)s %(message)s')
+
+        logging.getLogger('FFC').setLevel(logging.WARNING)
+        logging.getLogger('UFL').setLevel(logging.WARNING)
+
+        self.logger = logging.getLogger(__name__)
+        self.logger.setLevel(logging.INFO)
+
+    def _get_parameters_file(self) -> str:
         """
         Get path to config file from commandline args or return default
         :return:
