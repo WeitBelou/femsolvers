@@ -1,18 +1,20 @@
-from dolfin import Constant, DirichletBC
-from dolfin.cpp.function import near
+from typing import List
+
+from dolfin import DirichletBC, FunctionSpace
+
+from boundary_conditions.markers import make_marker
+from config.config import Config
 
 
-def create_boundary_conditions(function_space, h):
+def create_boundary_conditions(function_space: FunctionSpace, bcs: Config) -> List[DirichletBC]:
     """
-    Create boundary conditions: two planes with fixed temperature.
+    Create boundary conditions
     :param function_space: function space for which boundary conditions will be created.
-    :param h: distance between planes with fixed temperature.
+    :param bcs: Description of boundary conditions.
     :return: list of boundary conditions.
     """
-    u_top = Constant(0.0)
-    u_bottom = Constant(100.0)
 
-    bottom_bc = DirichletBC(function_space, u_top, lambda x, on_boundary: on_boundary and near(x[2], h))
-    upper_bc = DirichletBC(function_space, u_bottom, lambda x, on_boundary: on_boundary and near(x[2], 0))
+    def _make_const_dirichlet(conf: Config):
+        return DirichletBC(function_space, conf['value'], make_marker(conf['marker']))
 
-    return [upper_bc, bottom_bc]
+    return list(map(_make_const_dirichlet, bcs))

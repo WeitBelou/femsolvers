@@ -75,7 +75,7 @@ class Runner:
         Creates solver and passes config to it
         :raises SolverTypeNotFound when solver type in config invalid
         """
-        solver_type = self._config.solver.type
+        solver_type = self._config['solver']['type']
 
         if solver_type == 'heat':
             solver = StationaryHeatSolver(config=self._config)

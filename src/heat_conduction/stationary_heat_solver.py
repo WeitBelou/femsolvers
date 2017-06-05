@@ -37,17 +37,17 @@ class StationaryHeatSolver:
         vtk_file << u
 
     def run(self):
-        geometry = self._config.geometry
+        geometry = self._config['geometry']
 
         mesh = create_mesh(geometry)
 
         V = FunctionSpace(mesh, 'P', 1)
 
-        bcs = create_boundary_conditions(V, geometry.height)
+        bcs = create_boundary_conditions(V, self._config['boundary_conditions']['dirichlet'])
 
         a, L = self.create_variational_problem(V)
 
         u = Function(V, name='T')
         solve(a == L, u, bcs=bcs)
 
-        self.output_results(u, self._config.output.root)
+        self.output_results(u, self._config['output']['root'])
