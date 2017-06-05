@@ -4,7 +4,7 @@ import sys
 
 from dolfin.cpp.common import set_log_level
 
-from heat_conduction.main import main as heat_main
+from heat_conduction.stationary_heat_solver import StationaryHeatSolver
 from config import parser
 
 
@@ -47,8 +47,8 @@ class Runner:
 
         parameters_file = self.get_parameters_file()
 
-        self.parameters = parser.parse(parameters_file)
-        self.logger.info('Config:\n%(config)s', {'config': self.parameters})
+        self._config = parser.parse(parameters_file)
+        self.logger.info('Config:\n%(config)s', {'config': self._config})
 
     def get_parameters_file(self):
         """
@@ -75,10 +75,11 @@ class Runner:
         Creates solver and passes config to it
         :raises SolverTypeNotFound when solver type in config invalid
         """
-        solver_type = self.parameters.solver.type
+        solver_type = self._config.solver.type
 
         if solver_type == 'heat':
-            heat_main(self.parameters)
+            solver = StationaryHeatSolver(config=self._config)
+            solver.run()
         else:
             raise SolverTypeNotFound(solver_type)
 
