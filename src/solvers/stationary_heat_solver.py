@@ -33,7 +33,7 @@ class StationaryHeatSolver:
         :param u: function to output
         """
 
-        vtk_file = File(os.path.join(root, 'heat_conduction', '{name}.pvd'.format(name=u)))
+        vtk_file = File(os.path.join(root, 'solvers', '{name}.pvd'.format(name=u)))
         vtk_file << u
 
     def run(self):

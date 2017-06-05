@@ -1,28 +1,28 @@
 solver:
   type: 'heat'
 
-geometry:
-  type: 'cylinder'
-  height: 5.0 # meters
-  radius: 10.0 # meters
-  resolution: 10
+  geometry:
+    type: 'cylinder'
+    height: 5.0 # meters
+    radius: 10.0 # meters
+    resolution: 10
 
-boundary_conditions:
-  dirichlet:
-    - value: 100.0
-      marker:
-        type: plane
-        radius: 10.0
-        axis: z
-        center: [0.0, 0.0, 5.0]
+  boundary_conditions:
+    dirichlet:
+      - value: 100.0
+        marker:
+          type: plane
+          radius: 10.0
+          axis: z
+          center: [0.0, 0.0, 5.0]
 
-    - value: 0.0
-      marker:
-        type: plane
-        radius: 10.0
-        axis: z
-        center: [0.0, 0.0, 0.0]
+      - value: 0.0
+        marker:
+          type: plane
+          radius: 10.0
+          axis: z
+          center: [0.0, 0.0, 0.0]
 
 
-output:
-  root: 'results'
+  output:
+    root: 'results'

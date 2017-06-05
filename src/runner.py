@@ -2,26 +2,8 @@ import logging
 import os
 import sys
 
-from dolfin.cpp.common import set_log_level
-
-from heat_conduction.stationary_heat_solver import StationaryHeatSolver
+from solvers.factory import create_solver
 from config import parser
-
-
-class SolverTypeNotFound(Exception):
-    """
-    Exception that will be raised when one try to use unknown solver
-    """
-
-    def __init__(self, solver_type: str):
-        """
-        Constructor from solver_type
-        :param solver_type: type of solver that hasn't been founded
-        """
-        self.solver_type = solver_type
-
-    def __str__(self) -> str:
-        return 'Solver with type: "{type}" not found'.format(type=self.solver_type)
 
 
 class Runner:
@@ -78,13 +60,9 @@ class Runner:
         Creates solver and passes config to it
         :raises SolverTypeNotFound when solver type in config invalid
         """
-        solver_type = self._config['solver']['type']
 
-        if solver_type == 'heat':
-            solver = StationaryHeatSolver(config=self._config)
-            solver.run()
-        else:
-            raise SolverTypeNotFound(solver_type)
+        solver = create_solver(self._config['solver'])
+        solver.run()
 
 
 if __name__ == '__main__':
