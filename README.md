@@ -2,12 +2,10 @@
 
 1) Подготовить окружение
 ```bash
-$ curl -s https://get.fenicsproject.org | bash
-$ fenicsproject create ice_island
+$ docker build -t fenics/ice_island .
 
-$ fenicsproject start ice_island
-$ pip3 install -r requirements.txt
-$ exit
+$ curl -s https://get.fenicsproject.org | bash
+$ fenicsproject create ice_island fenics/ice_island
 ```
 
 2) Далее запускать

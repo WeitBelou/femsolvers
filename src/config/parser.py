@@ -1,6 +1,6 @@
-import yaml
+import ruamel.yaml as yaml
 
-from config.parameters import Parameters
+from config.config import Config
 
 
 def parse(parameters_file):
@@ -11,4 +11,4 @@ def parse(parameters_file):
     """
     parameters_file = open(parameters_file, 'r')
 
-    return Parameters(yaml.safe_load(parameters_file))
+    return Config(yaml.safe_load(parameters_file))

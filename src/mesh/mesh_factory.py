@@ -1,16 +1,18 @@
 from dolfin.cpp.mesh import Point
 from mshr import generate_mesh, Cylinder
 
+from config.config import Config
+
 
 class GeometryTypeNotFound(Exception):
-    def __init__(self, geometry_type):
+    def __init__(self, geometry_type: str):
         self.geometry_type = geometry_type
 
     def __str__(self):
         return 'Geometry with type: "{type}" not found'.format(type=self.geometry_type)
 
 
-def create_mesh(geometry):
+def create_mesh(geometry: Config):
     """
     Create cylinder mesh with bottom in (0, 0, 0).
     :type geometry: dict with geometry data

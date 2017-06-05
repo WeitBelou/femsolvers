@@ -36,7 +36,8 @@ class Runner:
         """
 
         # Disable debug messages from fenics
-        set_log_level(logging.WARNING)
+        logging.getLogger('FFC').setLevel(logging.WARNING)
+        logging.getLogger('UFL').setLevel(logging.WARNING)
 
         # Create and set custom logger
         self.logger = logging.getLogger(__name__)

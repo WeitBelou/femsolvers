@@ -1,4 +1,4 @@
-class Parameters:
+class Config:
     """
     Class that wraps parameters dict and give you access
     through member variables
@@ -10,5 +10,5 @@ class Parameters:
     def __getattribute__(self, item):
         res = object.__getattribute__(self, '_raw_params')[item]
         if type(res) is dict:
-            return Parameters(res)
+            return Config(res)
         return res
