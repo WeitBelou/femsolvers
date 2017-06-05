@@ -14,9 +14,9 @@ class GeometryTypeNotFound(Exception):
 
 def create_mesh(geometry: Config):
     """
-    Create cylinder mesh with bottom in (0, 0, 0).
+    Create cylinder meshes with bottom in (0, 0, 0).
     :type geometry: dict with geometry data
-    :return: generated mesh
+    :return: generated meshes
     """
     if geometry['type'] == 'cylinder':
         return generate_mesh(

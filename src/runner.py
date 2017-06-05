@@ -2,6 +2,7 @@ import logging
 import os
 import sys
 
+from meshes.factory import create_mesh
 from solvers.factory import create_solver
 from config import parser
 
@@ -60,8 +61,10 @@ class Runner:
         Creates solver and passes config to it
         :raises SolverTypeNotFound when solver type in config invalid
         """
+        mesh = create_mesh(self._config['geometry'])
 
-        solver = create_solver(self._config['solver'])
+        solver = create_solver(self._config['solver'], mesh)
+
         solver.run()
 
 

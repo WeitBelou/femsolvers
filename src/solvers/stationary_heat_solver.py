@@ -5,12 +5,12 @@ from fenics import *
 
 from boundary_conditions.dirichlet import create_boundary_conditions
 from config.config import Config
-from mesh.mesh_factory import create_mesh
 
 
 class StationaryHeatSolver:
-    def __init__(self, config: Config):
+    def __init__(self, config: Config, mesh: Mesh):
         self._config = config
+        self._mesh = mesh
 
     def create_variational_problem(self, function_space):
         """
@@ -37,11 +37,7 @@ class StationaryHeatSolver:
         vtk_file << u
 
     def run(self):
-        geometry = self._config['geometry']
-
-        mesh = create_mesh(geometry)
-
-        V = FunctionSpace(mesh, 'P', 1)
+        V = FunctionSpace(self._mesh, 'P', 1)
 
         bcs = create_boundary_conditions(V, self._config['boundary_conditions']['dirichlet'])
 
