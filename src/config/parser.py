@@ -1,9 +1,9 @@
-import ruamel.yaml as yaml
+from ruamel import yaml
 
 from config.config import Config
 
 
-def parse(parameters_file):
+def parse(parameters_file: str) -> Config:
     """
     Read parameter file and returns dict with config
     :param parameters_file: path to parameter file

@@ -48,6 +48,7 @@ class Runner:
         parameters_file = self.get_parameters_file()
 
         self.parameters = parser.parse(parameters_file)
+        self.logger.info('Config:\n%(config)s', {'config': self.parameters})
 
     def get_parameters_file(self):
         """
