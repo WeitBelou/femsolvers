@@ -1,4 +1,4 @@
-from ruamel import yaml
+import json
 
 from config.config import Config
 
@@ -11,4 +11,4 @@ def parse(parameters_file: str) -> Config:
     """
     parameters_file = open(parameters_file, 'r')
 
-    return Config(yaml.safe_load(parameters_file))
+    return Config(json.load(parameters_file))
