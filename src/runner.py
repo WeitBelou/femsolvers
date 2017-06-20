@@ -42,7 +42,7 @@ class Runner:
         :return:
         """
         if len(sys.argv) == 1:
-            default_filename = 'parameters.json'
+            default_filename = 'config.json'
             root = os.path.dirname(os.path.abspath(__file__))
             parameters_file = os.path.join(root, default_filename)
 

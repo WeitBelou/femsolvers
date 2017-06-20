@@ -11,5 +11,5 @@ $ fenicsproject create ice_island fenics/ice_island
 2) Далее запускать
 ```bash
 $ fenicsproject start ice_island
-$ python3 src/runner.py path/to/config.yml
+$ python3 src/runner.py path/to/config.json
 ```
