@@ -1,6 +1,4 @@
-from typing import Union
-
-from ruamel import yaml
+import json
 
 
 class Config:
@@ -16,5 +14,4 @@ class Config:
         return self._raw_params[item]
 
     def __str__(self) -> str:
-        return str(yaml.safe_dump(object.__getattribute__(self, '_raw_params'),
-                                  default_flow_style=False))
+        return json.dumps(object.__getattribute__(self, '_raw_params'), indent=2)
