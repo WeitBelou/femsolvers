@@ -10,7 +10,7 @@
     "type": "cylinder",
     "height": 5.0,
     "radius": 10.0,
-    "resolution": 10,
+    "resolution": 10
   },
 
   "boundary_conditions": {
@@ -21,7 +21,7 @@
           "type": "plane",
           "radius": 10.0,
           "axis": "z",
-          "center": [0.0, 0.0, 5.0],
+          "center": [0.0, 0.0, 5.0]
         }
       },
       {
