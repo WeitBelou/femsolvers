@@ -27,11 +27,6 @@ def run():
     config_file = _get_config_file()
     config = read_config(config_file)
 
-    # TODO: Remove asap (added to suppress warning of unused config var)
-    logger.debug(config.material)
-    logger.debug(config.geometry)
-    logger.debug(config.drilling)
-
 
 if __name__ == '__main__':
     run()
