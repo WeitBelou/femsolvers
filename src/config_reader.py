@@ -4,9 +4,6 @@ from dolfin.cpp.mesh import Point
 
 from logger import get_logger
 
-# Create logger
-logger = get_logger(__name__)
-
 
 class BaseConfig:
     """
@@ -127,5 +124,7 @@ class Config(BaseConfig):
 def read_config(config_file: str) -> Config:
     with open(config_file, 'r', encoding='utf-8') as f:
         config = Config(json.load(f))
-        logger.info('Config:\n%(config)s', {'config': config})
+
+        get_logger(__name__).info('Config:\n%(config)s', {'config': config})
+
         return config
