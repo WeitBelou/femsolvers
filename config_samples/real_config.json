@@ -10,5 +10,11 @@
     "diameter": 100,
     "full_height": 5,
     "above_water_height": 4
+  },
+  "drilling": {
+    "shape": "circle",
+    "diameter": 4,
+    "center": [0.0, 0.0, 5.0],
+    "mass": 1.5e6
   }
 }
