@@ -1,14 +1,14 @@
-import json
 import os
 import sys
 
+from config_reader import read_config
 from logger import get_logger
 
 # Create logger
 logger = get_logger(__name__)
 
 
-def _get_parameters_file() -> str:
+def _get_config_file() -> str:
     """
     Get path to config file from commandline args or return default
     :return: path to config file.
@@ -24,11 +24,13 @@ def run():
     """
     Read config file and log it.
     """
-    parameters_file = _get_parameters_file()
+    config_file = _get_config_file()
+    config = read_config(config_file)
 
-    with open(parameters_file, 'r', encoding='utf-8') as f:
-        config = json.load(f)
-        logger.info('Config:\n%(config)s', {'config': json.dumps(obj=config, indent=2)})
+    # TODO: Remove asap (added to suppress warning of unused config var)
+    logger.debug(config.material)
+    logger.debug(config.geometry)
+    logger.debug(config.drilling)
 
 
 if __name__ == '__main__':
