@@ -1,0 +1,14 @@
+{
+  "material": {
+    "density": 917,
+    "young_modulus": 9.0e9,
+    "shear_modulus": 3.0e9,
+    "thermal_diffusivity": 1.2e6,
+    "thermal_expansion": 5.0e-5
+  },
+  "geometry": {
+    "diameter": 100,
+    "full_height": 5,
+    "above_water_height": 4
+  }
+}
