@@ -1,34 +1,20 @@
 {
-  "solver": {
-    "type": "heat",
-    "output": {
-      "root": "results"
-    }
+  "material": {
+    "density": 9.2e2,
+    "young_modulus": 9.0e9,
+    "shear_modulus": 3.0e9,
+    "thermal_diffusivity": 1.2e6,
+    "thermal_expansion": 5.0e-5
   },
   "geometry": {
-    "type": "cylinder",
-    "height": 5.0,
-    "radius": 10.0,
-    "resolution": 10
+    "diameter": 5.0e2,
+    "full_height": 5.0,
+    "above_water_height": 4.0
   },
-  "boundary_conditions": {
-    "dirichlet": [
-      {
-        "value": 100.0,
-        "marker": {
-          "type": "plane",
-          "axis": "z",
-          "center": [0.0, 0.0, 5.0]
-        }
-      },
-      {
-        "value": 0.0,
-        "marker": {
-          "type": "plane",
-          "axis": "z",
-          "center": [0.0, 0.0, 0.0]
-        }
-      }
-    ]
+  "drilling": {
+    "shape": "circle",
+    "diameter": 4.0,
+    "center": [0.0, 0.0, 5.0],
+    "mass": 1.5e6
   }
 }
