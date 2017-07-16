@@ -5,7 +5,7 @@ from dolfin.cpp.io import File
 
 from boundary_conditions.factory import create_dirichlet
 from config import parser
-from config.config import Config
+from config.configroot import ConfigRoot
 from function_spaces.factory import create_function_space
 from logger import get_logger, configure_logger
 from meshes.factory import create_mesh
@@ -35,7 +35,7 @@ def get_parameters_file_path() -> str:
     return parameters_file
 
 
-def solve(config: Config):
+def solve(config: ConfigRoot):
     """
     Creates solver and passes config to it
     :raises SolverTypeNotFound when solver type in config invalid

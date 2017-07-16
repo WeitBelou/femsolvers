@@ -1,7 +1,7 @@
 import json
 
 
-class Config:
+class ConfigRoot:
     """
     Class that wraps parameters dict and give you access
     through member variables

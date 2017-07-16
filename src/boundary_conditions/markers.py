@@ -2,7 +2,7 @@ from typing import List, Callable
 
 from dolfin.cpp.function import near
 
-from config.config import Config
+from config.configroot import ConfigRoot
 
 
 class WrongAxis(Exception):
@@ -21,7 +21,7 @@ class MarkerTypeNotFound(Exception):
         return "Marker: {marker} doesn't exist".format(marker=self._marker_type)
 
 
-def make_marker(marker: Config) -> Callable[[bool, List[float]], bool]:
+def make_marker(marker: ConfigRoot) -> Callable[[bool, List[float]], bool]:
     marker_type = marker['type']
     if marker_type == 'plane':
         return lambda x, on_boundary: _plane(marker['center'], marker['axis'], x, on_boundary)

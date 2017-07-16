@@ -1,7 +1,7 @@
 from dolfin.cpp.mesh import Point
 from mshr import generate_mesh, Cylinder, Box
 
-from config.config import Config
+from config.configroot import ConfigRoot
 from logger import get_logger
 from meshes.converters import create_point
 
@@ -14,7 +14,7 @@ class GeometryTypeNotFound(Exception):
         return 'Geometry with type: "{type}" not found'.format(type=self.geometry_type)
 
 
-def create_mesh(geometry: Config):
+def create_mesh(geometry: ConfigRoot):
     """
     Create mesh from geometry data.
     :type geometry: dict with geometry data
