@@ -27,22 +27,11 @@ class StationaryHeatSolver:
 
         return a, L
 
-    def output_results(self, u, root):
-        """
-        Output results in vtu format.
-        :param root: base dir for results
-        :param u: function to output
-        """
-
-        vtk_file = File(os.path.join(root, 'solvers', '{name}.pvd'.format(name=u)))
-        vtk_file << u
-
-    def run(self):
+    def solve(self) -> Function:
         V = FunctionSpace(self._mesh, 'P', 1)
 
         a, L = self.create_variational_problem(V)
 
         u = Function(V, name='T')
         solve(a == L, u, bcs=create_dirichlet(V, self._bcs))
-
-        self.output_results(u, self._config['output']['root'])
+        return u

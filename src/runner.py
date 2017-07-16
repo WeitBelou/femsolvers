@@ -2,6 +2,8 @@ import logging
 import os
 import sys
 
+from dolfin.cpp.io import File
+
 from config import parser
 from meshes.factory import create_mesh
 from solvers.factory import create_solver
@@ -63,12 +65,13 @@ class Runner:
         """
         mesh = create_mesh(self._config['geometry'])
 
-        # TODO: We need to declare function space for bcs (how to get rid of it?)
         bcs = self._config['boundary_conditions']['dirichlet']
 
         solver = create_solver(self._config['solver'], mesh, bcs)
+        solution = solver.solve()
 
-        solver.run()
+        vtkfile = File(os.path.join(self._config['solver']['output']['root'], 'result.pvd'))
+        vtkfile << solution
 
 
 if __name__ == '__main__':
