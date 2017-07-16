@@ -2,6 +2,8 @@ from typing import List, Tuple
 
 from fenics import *
 
+from logger import get_logger
+
 
 def create_heat_variational_problem(function_space: FunctionSpace) -> Tuple:
     """
@@ -25,8 +27,13 @@ def solve_heat_problem(function_space: FunctionSpace, bcs: List[DirichletBC]) ->
     :param bcs: List[DirichletBC] Dirichlet boundary conditions
     :return: Function with solution of problem
     """
+    get_logger(__name__).info('Assembling variational problem starting...')
     a, L = create_heat_variational_problem(function_space)
+    get_logger(__name__).info('Assembling variational problem finishing...')
+
     u = Function(function_space, name='T')
 
+    get_logger(__name__).info('Starting solving linear system...')
     solve(a == L, u, bcs=bcs)
+    get_logger(__name__).info('Finishing solving linear system...')
     return u
