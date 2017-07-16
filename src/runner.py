@@ -5,6 +5,7 @@ from dolfin.cpp.io import File
 
 from boundary_conditions.factory import create_dirichlet
 from config import parser
+from config.config import Config
 from function_spaces.factory import create_function_space
 from logger import get_logger, configure_logger
 from meshes.factory import create_mesh
@@ -34,39 +35,29 @@ def get_parameters_file_path() -> str:
     return parameters_file
 
 
-class Runner:
+def solve(config: Config):
     """
-    Class that creates solver and passes config to it
+    Creates solver and passes config to it
+    :raises SolverTypeNotFound when solver type in config invalid
     """
+    mesh = create_mesh(config['geometry'])
+    function_space = create_function_space(mesh, config['finite_element'])
 
-    def __init__(self):
-        """
-        Constructor that parses commandline args and provide default config if
-        there is not other
-        """
-        configure_logger()
-        parameters_file = get_parameters_file_path()
+    bcs = create_dirichlet(function_space, config['boundary_conditions']['dirichlet'])
+    solver = create_solver(config['solver']['type'])
 
-        self._config = parser.parse(parameters_file)
-        get_logger(__name__).info('Config:\n%(config)s', {'config': self._config})
+    solution = solver(function_space, bcs)
 
-    def run(self):
-        """
-        Creates solver and passes config to it
-        :raises SolverTypeNotFound when solver type in config invalid
-        """
-        mesh = create_mesh(self._config['geometry'])
-        function_space = create_function_space(mesh, self._config['finite_element'])
-
-        bcs = create_dirichlet(function_space, self._config['boundary_conditions']['dirichlet'])
-        solver = create_solver(self._config['solver']['type'])
-
-        solution = solver(function_space, bcs)
-
-        vtkfile = File(os.path.join(self._config['solver']['output']['root'], 'result.pvd'))
-        vtkfile << solution
+    vtkfile = File(os.path.join(config['solver']['output']['root'], 'result.pvd'))
+    vtkfile << solution
 
 
 if __name__ == '__main__':
-    runner = Runner()
-    runner.run()
+    configure_logger()
+
+    parameters_file = get_parameters_file_path()
+
+    config = parser.parse(parameters_file)
+    get_logger(__name__).debug('Config:\n%(config)s', {'config': config})
+
+    solve(config)
