@@ -4,9 +4,11 @@ import sys
 
 from dolfin.cpp.io import File
 
+from boundary_conditions.factory import create_dirichlet
 from config import parser
 from meshes.factory import create_mesh
 from solvers.factory import create_solver
+from solvers.stationary_heat_solver import create_function_space_for_heat_problem
 
 
 class Runner:
@@ -65,10 +67,12 @@ class Runner:
         """
         mesh = create_mesh(self._config['geometry'])
 
-        bcs = self._config['boundary_conditions']['dirichlet']
+        function_space = create_function_space_for_heat_problem(mesh)
+        bcs = create_dirichlet(function_space, self._config['boundary_conditions']['dirichlet'])
 
-        solver = create_solver(self._config['solver'], mesh, bcs)
-        solution = solver.solve()
+        solver = create_solver(self._config['solver']['type'])
+
+        solution = solver(function_space, bcs)
 
         vtkfile = File(os.path.join(self._config['solver']['output']['root'], 'result.pvd'))
         vtkfile << solution

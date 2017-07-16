@@ -1,7 +1,7 @@
 from ufl import Mesh
 
 from config.config import Config
-from solvers.stationary_heat_solver import StationaryHeatSolver
+from solvers.stationary_heat_solver import solve_heat_problem
 
 
 class SolverTypeNotFound(Exception):
@@ -20,18 +20,15 @@ class SolverTypeNotFound(Exception):
         return 'Solver with type: "{type}" not found'.format(type=self.solver_type)
 
 
-def create_solver(config: Config, mesh: Mesh, bcs: Config):
+def create_solver(solver_type: str):
     """
-    Creates solver from config
-    :param bcs: Config for boundary conditions
-    :param config: Config with solver description
-    :param mesh: Mesh for solver
+    Creates solver function from solver type
+    :param solver_type: string that specifies solver type
     :raise SolverTypeNotFound if there is no solver with type that was declared in config
-    :return: created solver
+    :return: chosen solver function
     """
-    solver_type = config['type']
 
     if solver_type == 'heat':
-        return StationaryHeatSolver(config=config, mesh=mesh, bcs=bcs)
+        return solve_heat_problem
     else:
         raise SolverTypeNotFound(solver_type)
