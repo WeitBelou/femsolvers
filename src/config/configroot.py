@@ -47,6 +47,6 @@ def config_root(data: dict) -> ConfigRoot:
     bcs = create_dirichlet(function_space, data['boundary_conditions']['dirichlet'])
     solver = create_solver(data['solver']['type'])
 
-    output_dir = data['solver']['output']['root']
+    output_dir = data['solver']['output_dir']
 
     return ConfigRoot(function_space, bcs, solver, output_dir)

@@ -1,9 +1,7 @@
 {
   "solver": {
     "type": "heat",
-    "output": {
-      "root": "results/heat_box"
-    }
+    "output_dir": "results/heat_box"
   },
   "finite_element": {
     "type": "lagrange",

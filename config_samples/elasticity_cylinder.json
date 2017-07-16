@@ -1,9 +1,7 @@
 {
   "solver": {
     "type": "elasticity",
-    "output": {
-      "root": "results/elasticity_cylinder"
-    }
+    "output_dir": "results/elasticity_cylinder"
   },
   "finite_element": {
     "type": "lagrange",
