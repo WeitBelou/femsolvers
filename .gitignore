@@ -1,3 +1,6 @@
 # vtk files
 *.pvd
 *.vt[u, k]
+
+# Test data
+.cache
