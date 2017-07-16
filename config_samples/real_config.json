@@ -1,8 +1,8 @@
 {
   "material": {
     "density": 9.2e2,
-    "young_modulus": 8.7e9,
-    "shear_modulus": 3.8e9,
+    "young_modulus": 9.0e9,
+    "shear_modulus": 3.0e9,
     "thermal_diffusivity": 1.2e6,
     "thermal_expansion": 5.0e-5
   },
