@@ -17,4 +17,4 @@ done
 
 echo Image: ${IMAGE}
 
-fenicsproject run ${IMAGE} "python3 tests/testsRunner.py"
+fenicsproject run ${IMAGE} "pytest tests"
