@@ -2,7 +2,7 @@
   "solver": {
     "type": "heat",
     "output": {
-      "root": "results"
+      "root": "results/heat_cylinder"
     }
   },
   "geometry": {

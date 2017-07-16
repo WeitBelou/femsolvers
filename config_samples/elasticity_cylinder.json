@@ -2,7 +2,7 @@
   "solver": {
     "type": "elasticity",
     "output": {
-      "root": "results"
+      "root": "results/elasticity_cylinder"
     }
   },
   "geometry": {
