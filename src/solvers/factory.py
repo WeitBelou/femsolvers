@@ -1,6 +1,4 @@
-from ufl import Mesh
-
-from config.config import Config
+from logger import get_logger
 from solvers.stationary_heat_solver import solve_heat_problem
 
 
@@ -29,6 +27,7 @@ def create_solver(solver_type: str):
     """
 
     if solver_type == 'heat':
+        get_logger(__name__).info('Using solver with type: {solver_type}'.format(solver_type=solver_type))
         return solve_heat_problem
     else:
         raise SolverTypeNotFound(solver_type)

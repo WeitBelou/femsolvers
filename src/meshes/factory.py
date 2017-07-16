@@ -2,6 +2,7 @@ from dolfin.cpp.mesh import Point
 from mshr import generate_mesh, Cylinder, Box
 
 from config.config import Config
+from logger import get_logger
 from meshes.converters import create_point
 
 
@@ -20,6 +21,10 @@ def create_mesh(geometry: Config):
     :return: generated mesh.
     """
     if geometry['type'] == 'cylinder':
+        get_logger(__name__).info('Using mesh with type: {geometry_type}'.format(
+            geometry_type=geometry['type']
+        ))
+
         return generate_mesh(
             Cylinder(
                 top=Point(0, 0, geometry['height']),

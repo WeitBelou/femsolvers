@@ -2,6 +2,7 @@ from dolfin import FunctionSpace
 from ufl import Mesh
 
 from config.config import Config
+from logger import get_logger
 from solvers.stationary_heat_solver import solve_heat_problem
 
 
@@ -30,6 +31,7 @@ def create_function_space(mesh: Mesh, finite_element: Config) -> FunctionSpace:
     """
 
     if finite_element['type'] == 'lagrange':
+        get_logger(__name__).info('Using finite element: P-{kind}'.format(kind=finite_element['kind']))
         return FunctionSpace(mesh, 'P', finite_element['kind'])
     else:
         raise FiniteElementTypeNotFound(finite_element['type'])
