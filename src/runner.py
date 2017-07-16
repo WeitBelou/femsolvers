@@ -3,13 +3,9 @@ import sys
 
 from dolfin.cpp.io import File
 
-from boundary_conditions.factory import create_dirichlet
 from config import parser
 from config.configroot import ConfigRoot
-from function_spaces.factory import create_function_space
 from logger import get_logger, configure_logger
-from meshes.factory import create_mesh
-from solvers.factory import create_solver
 
 
 def get_parameters_file_path() -> str:
@@ -40,15 +36,9 @@ def solve(config: ConfigRoot):
     Creates solver and passes config to it
     :raises SolverTypeNotFound when solver type in config invalid
     """
-    mesh = create_mesh(config['geometry'])
-    function_space = create_function_space(mesh, config['finite_element'])
+    solution = config.solver(config.function_space, config.bcs)
 
-    bcs = create_dirichlet(function_space, config['boundary_conditions']['dirichlet'])
-    solver = create_solver(config['solver']['type'])
-
-    solution = solver(function_space, bcs)
-
-    vtkfile = File(os.path.join(config['solver']['output']['root'], 'result.pvd'))
+    vtkfile = File(os.path.join(config.output_dir, 'result.pvd'))
     vtkfile << solution
 
 

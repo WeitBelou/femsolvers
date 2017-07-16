@@ -1,9 +1,7 @@
 from dolfin import FunctionSpace
 from ufl import Mesh
 
-from config.configroot import ConfigRoot
 from logger import get_logger
-from solvers.stationary_heat_solver import solve_heat_problem
 
 
 class FiniteElementTypeNotFound(Exception):
@@ -22,7 +20,7 @@ class FiniteElementTypeNotFound(Exception):
         return 'Finite element with type: "{type}" not found'.format(type=self.fe_type)
 
 
-def create_function_space(mesh: Mesh, finite_element: ConfigRoot) -> FunctionSpace:
+def create_function_space(mesh: Mesh, finite_element: dict) -> FunctionSpace:
     """
     Creates function space from finite element type and mesh
     :param finite_element: Config that specifies finite element

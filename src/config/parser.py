@@ -1,7 +1,7 @@
 import json
 from json import JSONDecodeError
 
-from config.configroot import ConfigRoot
+from config.configroot import ConfigRoot, config_root
 from logger import get_logger
 
 
@@ -13,8 +13,13 @@ def parse(parameters_file: str) -> ConfigRoot:
     """
     with open(parameters_file, 'r') as parameters:
         try:
-            config = ConfigRoot(json.load(parameters))
-            get_logger(__name__).debug('Config parsed:\n%(config)s', {'config': config})
+            config = json.load(parameters)
+            get_logger(__name__).debug(
+                'Loaded config:\n%(config)s',
+                {'config': json.dumps(config, indent=1)})
+
+            config = config_root(config)
+            get_logger(__name__).debug('Parsed config:\n%(config)s', {'config': config})
             return config
         except JSONDecodeError as e:
             get_logger(__name__).error(
