@@ -12,3 +12,9 @@ $ curl -s https://get.fenicsproject.org | bash
 $ chmod +x ./run.sh
 $ ./run.sh --image=fenics/ice_island --config=path/to/config.json
 ```
+
+3) Тесты
+```bash
+$ chmod +x ./runTests.sh
+$ ./runTests.sh --image=fenics/ice_island
+```
