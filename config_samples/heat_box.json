@@ -5,6 +5,10 @@
       "root": "results/heat_box"
     }
   },
+  "finite_element": {
+    "type": "lagrange",
+    "kind": 1
+  },
   "geometry": {
     "type": "box",
     "a": [-2.5, -2.5, 0.0],

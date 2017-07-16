@@ -18,16 +18,6 @@ def create_heat_variational_problem(function_space: FunctionSpace) -> Tuple:
     return a, L
 
 
-def create_function_space_for_heat_problem(mesh: Mesh, kind=1) -> FunctionSpace:
-    """
-    Create function space on mesh
-    :type kind: int kind of finite element: (1 for P_1), (2 for P_2), etc.
-    :type mesh: Mesh mesh object to generate function space on it.
-    :return Lagrange function space for mesh
-    """
-    return FunctionSpace(mesh, 'P', kind)
-
-
 def solve_heat_problem(function_space: FunctionSpace, bcs: List[DirichletBC]) -> Function:
     """
     Solves heat problem on function_space with boundary conditions == bcs

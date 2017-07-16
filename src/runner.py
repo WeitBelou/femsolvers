@@ -6,9 +6,9 @@ from dolfin.cpp.io import File
 
 from boundary_conditions.factory import create_dirichlet
 from config import parser
+from function_spaces.factory import create_function_space
 from meshes.factory import create_mesh
 from solvers.factory import create_solver
-from solvers.stationary_heat_solver import create_function_space_for_heat_problem
 
 
 class Runner:
@@ -66,10 +66,9 @@ class Runner:
         :raises SolverTypeNotFound when solver type in config invalid
         """
         mesh = create_mesh(self._config['geometry'])
+        function_space = create_function_space(mesh, self._config['finite_element'])
 
-        function_space = create_function_space_for_heat_problem(mesh)
         bcs = create_dirichlet(function_space, self._config['boundary_conditions']['dirichlet'])
-
         solver = create_solver(self._config['solver']['type'])
 
         solution = solver(function_space, bcs)

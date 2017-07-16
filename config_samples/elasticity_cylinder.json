@@ -5,6 +5,10 @@
       "root": "results/elasticity_cylinder"
     }
   },
+  "finite_element": {
+    "type": "lagrange",
+    "kind": 1
+  },
   "geometry": {
     "type": "cylinder",
     "height": 5.0,
