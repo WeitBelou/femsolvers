@@ -58,6 +58,5 @@ if __name__ == '__main__':
     parameters_file = get_parameters_file_path()
 
     config = parser.parse(parameters_file)
-    get_logger(__name__).debug('Config:\n%(config)s', {'config': config})
 
     solve(config)
