@@ -1,8 +1,8 @@
 import json
 from json import JSONDecodeError
 
-from config.configroot import ConfigRoot, config_root
-from logger import get_logger
+from .configroot import ConfigRoot, config_root
+from ..logger import get_logger
 
 
 def parse(parameters_file: str) -> ConfigRoot:

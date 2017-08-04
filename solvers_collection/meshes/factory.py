@@ -1,8 +1,8 @@
 from dolfin.cpp.mesh import Point
 from mshr import generate_mesh, Cylinder, Box
 
-from logger import get_logger
-from meshes.converters import create_point
+from ..logger import get_logger
+from .converters import create_point
 
 
 class GeometryTypeNotFound(Exception):

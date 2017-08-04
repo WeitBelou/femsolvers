@@ -1,5 +1,5 @@
-from logger import get_logger
-from solvers.stationary_heat_solver import solve_heat_problem
+from ..logger import get_logger
+from .stationary_heat_solver import solve_heat_problem
 
 
 class SolverTypeNotFound(Exception):

@@ -3,9 +3,11 @@ import sys
 
 from dolfin.cpp.io import File
 
-from config import parser
-from config.configroot import ConfigRoot
-from logger import get_logger, configure_logger
+from solvers_collection.config import parser
+from solvers_collection.config.configroot import ConfigRoot
+from solvers_collection.logger import get_logger, configure_logger
+
+LOGGER = get_logger(__name__)
 
 
 def get_parameters_file_path() -> str:
@@ -13,20 +15,10 @@ def get_parameters_file_path() -> str:
     Get path to config file path from commandline args or return default
     :return:
     """
-    logger = get_logger(__name__)
-
-    if len(sys.argv) == 1:
-        default_filename = 'config.json'
-        root = os.path.dirname(os.path.abspath(__file__))
-        parameters_file = os.path.join(root, default_filename)
-
-        logger.info('Using default "%(params)s" config file', {'params': parameters_file})
-
-        return parameters_file
 
     parameters_file = os.path.abspath(sys.argv[1])
 
-    logger.info('Using "%(params)s" config file', {'params': parameters_file})
+    LOGGER.info('Using "{}" config file'.format(parameters_file))
 
     return parameters_file
 

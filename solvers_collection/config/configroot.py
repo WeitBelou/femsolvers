@@ -2,10 +2,10 @@ from typing import List, Callable
 
 from dolfin import FunctionSpace, DirichletBC, Function
 
-from boundary_conditions.factory import create_dirichlet
-from function_spaces import create_function_space
-from meshes.factory import create_mesh
-from solvers.factory import create_solver
+from ..boundary_conditions.factory import create_dirichlet
+from ..function_spaces import create_function_space
+from ..meshes.factory import create_mesh
+from ..solvers.factory import create_solver
 
 
 class ConfigRoot:

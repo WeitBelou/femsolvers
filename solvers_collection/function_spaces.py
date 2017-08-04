@@ -1,7 +1,7 @@
 from dolfin import FunctionSpace
 from ufl import Mesh
 
-from logger import get_logger
+from .logger import get_logger
 
 
 class FiniteElementTypeNotFound(Exception):

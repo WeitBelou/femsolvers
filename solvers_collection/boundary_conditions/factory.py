@@ -2,7 +2,7 @@ from typing import List
 
 from dolfin import DirichletBC, FunctionSpace
 
-from boundary_conditions.markers import make_marker
+from .markers import make_marker
 
 
 def create_dirichlet(function_space: FunctionSpace, bcs: dict) -> List[DirichletBC]:
