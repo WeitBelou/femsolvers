@@ -24,4 +24,4 @@ done
 echo Image: ${IMAGE}
 echo Config: ${CONFIG}
 
-fenicsproject run ${IMAGE} "python3 src/runner.py ${CONFIG}"
+fenicsproject run ${IMAGE} "python3 solvers_collection/runner.py ${CONFIG}"
