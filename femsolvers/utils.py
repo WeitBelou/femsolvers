@@ -1,4 +1,25 @@
 import os
+from typing import Union
+
+from dolfin.cpp.io import File
+from dolfin.cpp.mesh import Mesh
+from dolfin.cpp.function import Function
+
+
+def write_data(directory: str, name: str, data: Union[Function, Mesh]):
+    """
+    Output data to file ``name`` to ``directory``. Perform docker permission fix.
+
+    :param directory: path where output file will be written.
+    :param name: name of file WITH extension.
+    :param data:
+    """
+    full_name = os.path.join(directory, name)
+
+    with File(full_name) as f:
+        f << data
+
+    fix_docker_permissions(directory)
 
 
 def fix_docker_permissions(root_dir: str):
