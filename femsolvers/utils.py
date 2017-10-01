@@ -32,12 +32,13 @@ def fix_docker_permissions(root_dir: str):
     :return:
     """
     for root, dirs, files in os.walk(root_dir):
-        do_what_you_want = 0o777
+        files_permissions = 0o666
+        dirs_permissions = 0o777
 
-        os.chmod(root, do_what_you_want)
+        os.chmod(root, dirs_permissions)
 
         for directory in dirs:
-            os.chmod(os.path.join(root, directory), do_what_you_want)
+            os.chmod(os.path.join(root, directory), dirs_permissions)
 
         for file in files:
-            os.chmod(os.path.join(root, file), do_what_you_want)
+            os.chmod(os.path.join(root, file), files_permissions)

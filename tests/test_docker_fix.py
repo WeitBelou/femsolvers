@@ -1,4 +1,5 @@
 import os
+import stat
 
 from femsolvers import utils
 
@@ -31,7 +32,7 @@ def test_docker_fix():
     utils.fix_docker_permissions(BASE_DIR)
 
     for directory in TEST_DIRS:
-        assert os.stat(directory).st_mode & 0o777
+        assert stat.S_IMODE(os.stat(directory).st_mode) == 0o777
 
     for file in TEST_FILES:
-        assert os.stat(file).st_mode & 0o777
+        assert stat.S_IMODE(os.stat(file).st_mode) == 0o666
