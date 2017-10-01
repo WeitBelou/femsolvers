@@ -5,31 +5,38 @@ from dolfin.cpp.io import File
 from dolfin.cpp.mesh import Mesh
 from dolfin.cpp.function import Function
 
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 
-def write_data(directory: str, name: str, data: Union[Function, Mesh]):
-    """
-    Output data to file ``name`` to ``directory``. Perform docker permission fix.
+MESH_DIR = os.path.join(BASE_DIR, 'meshes')
+RESULTS_DIR = os.path.join(BASE_DIR, 'results')
 
-    :param directory: path where output file will be written.
-    :param name: name of file WITH extension.
-    :param data:
+
+def write_mesh(name: str, mesh: Mesh):
     """
-    full_name = os.path.join(directory, name)
+    Writes mesh in pvd format.
+    """
+    _write_pvd(MESH_DIR, name, mesh)
+
+
+def write_results(name: str, data: Function):
+    """
+    Writes results in pvd format.
+    """
+    _write_pvd(RESULTS_DIR, name, data)
+
+
+def _write_pvd(directory: str, name: str, data: Union[Function, Mesh]):
+    full_name = os.path.join(directory, name + '.pvd')
 
     with File(full_name) as f:
         f << data
 
-    fix_docker_permissions(directory)
-
 
 def fix_docker_permissions(root_dir: str):
     """
-    Fix docker UID issue. NOTE: One should use this very carefully.
-    This function gives permissions for EVERYONE to do EVERYTHING with all subdirs of
-    root_dir.
+    Fix docker UID issue.
 
     :param str root_dir:
-    :return:
     """
     for root, dirs, files in os.walk(root_dir):
         files_permissions = 0o666
